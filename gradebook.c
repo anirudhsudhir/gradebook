@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+const int MAX_INTERNAL_MARKS = 40;
+const int MAX_EXTERNAL_MARKS = 100;
+
 int totalSubs = 0;
 int totalInternals = 0;
 int totalExternals = 0;
@@ -31,7 +34,7 @@ int choiceEntry() {
     updateStudentScores();
     break;
   case 3:
-    // calculateStudentScores();
+    calculateStudentScores();
     break;
   case 4:
     displayStudentData();

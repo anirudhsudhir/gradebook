@@ -1,4 +1,4 @@
 all:
-	cc gradebook.c studentDetails.c utils.c -o gradebook
+	gcc gradebook.c studentDetails.c utils.c -o gradebook
 debug:
-	cc -g gradebook.c studentDetails.c utils.c -o gradebook
+	gcc -g gradebook.c studentDetails.c utils.c -o gradebook
