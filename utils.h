@@ -4,10 +4,9 @@ extern int totalSubs;
 extern int totalInternals;
 extern int totalExternals;
 extern int maxStudents;
-extern int MAX_STUDENTS;
 extern int currentStudentPointer;
-extern const int MAX_INTERNAL_MARKS;
-extern const int MAX_EXTERNAL_MARKS;
+extern int max_internal_marks;
+extern int max_external_marks;
 
 extern char **subjects;
 extern GradeBook **gradeBook;

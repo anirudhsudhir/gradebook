@@ -33,20 +33,18 @@ void addStudent() {
 
 void updateStudentScores() {
   for (int h = 0; h < currentStudentPointer; h++) {
-    printf("Enter the marks of student %d\n", h + 1);
     int **marks = (int **)malloc(sizeof(int *));
-
+    screenSep();
     for (int i = 0; i < totalSubs; i++) {
-      printf("Enter the marks of the student in %s\n", subjects[i]);
+      printf("Enter %s's marks in %s\n", gradeBook[h]->name, subjects[i]);
       int *subMarks = (int *)malloc(sizeof(int));
 
       for (int j = 0; j < totalInternals; j++) {
-        printf("Enter the marks of the student in internal %d\n", j + 1);
+        printf("Internal %d: ", j + 1);
         scanf("%d", &subMarks[j]);
       }
       for (int j = totalInternals; j < totalInternals + totalExternals; j++) {
-        printf("Enter the marks of the student in external %d\n",
-               j + 1 - totalInternals);
+        printf("External %d: ", j + 1 - totalInternals);
         scanf("%d", &subMarks[j]);
       }
 
@@ -59,10 +57,16 @@ void updateStudentScores() {
 
 void calculateStudentScores() {
   for (int i = 0; i < currentStudentPointer; i++) {
+    if (gradeBook[i]->marks == NULL) {
+      printf("Scores cannot be calculated as marks have not been added yet\n");
+      waitClear();
+      return;
+    }
     Result *result = (Result *)malloc(sizeof(Result));
-    float *calculatedSubGPA = (float *)malloc(totalSubs * sizeof(float));
-    int MAX_SCORE = totalInternals * MAX_INTERNAL_MARKS +
-                    totalExternals * MAX_EXTERNAL_MARKS;
+    float *calculatedSubjectPercent =
+        (float *)malloc(totalSubs * sizeof(float));
+    int MAX_SCORE = totalInternals * max_internal_marks +
+                    totalExternals * max_external_marks;
     int calculatedTotalScore = 0;
 
     for (int j = 0; j < totalSubs; j++) {
@@ -71,22 +75,25 @@ void calculateStudentScores() {
         calculatedSubScore += gradeBook[i]->marks[j][k];
         calculatedTotalScore += gradeBook[i]->marks[j][k];
       }
-      calculatedSubGPA[j] = (float)calculatedSubScore / MAX_SCORE;
+      calculatedSubjectPercent[j] =
+          ((float)calculatedSubScore / MAX_SCORE) * 100;
     }
 
-    result->GPA = (float)calculatedTotalScore / (MAX_SCORE * totalSubs);
-    result->subjectGPA = calculatedSubGPA;
+    result->GPA = ((float)calculatedTotalScore / (MAX_SCORE * totalSubs)) * 10;
+    result->subjectGPA = calculatedSubjectPercent;
     gradeBook[i]->result = result;
   }
 }
 
 void displayStudentData() {
-  printf("%-15s %-8s %-8s %-13s %-8s\n", "Name", "Roll No", "Semester",
-         "Phone Number", "Section");
+  screenSep();
+  printf("%-7s | %-15s | %-8s | %-8s | %-13s | %-8s\n", "Sl. No.", "Name",
+         "Roll No", "Semester", "Phone Number", "Section");
   for (int i = 0; i < currentStudentPointer; i++) {
-    printf("%-15s %-8d %-8d %-13ld %c\n", gradeBook[i]->name,
-           gradeBook[i]->roll_no, gradeBook[i]->sem, gradeBook[i]->phone_no,
-           gradeBook[i]->section);
+    screenSep();
+    printf("%-7d | %-15s | %-8d | %-8d | %-13ld | %c\n", i + 1,
+           gradeBook[i]->name, gradeBook[i]->roll_no, gradeBook[i]->sem,
+           gradeBook[i]->phone_no, gradeBook[i]->section);
     if (gradeBook[i]->marks != NULL) {
       for (int j = 0; j < totalSubs; j++) {
         printf("%s Scores\n", subjects[j]);
@@ -96,18 +103,19 @@ void displayStudentData() {
         for (int k = totalInternals; k < totalInternals + totalExternals; k++) {
           printf("External %d - %d\n", k + 1, gradeBook[i]->marks[j][k]);
         }
-        if (gradeBook[i]->result != NULL) {
-          for (int k = 0; k < totalSubs; k++) {
-            printf("%s percentage is %f\n", subjects[k],
-                   gradeBook[i]->result->subjectGPA[k]);
-          }
-          printf("The GPA is %f\n", gradeBook[i]->result->GPA);
-        } else {
-          printf("The GPA of this student has not been calculated\n");
+      }
+      if (gradeBook[i]->result != NULL) {
+        for (int k = 0; k < totalSubs; k++) {
+          printf("Percentage in %s is %f%%\n", subjects[k],
+                 gradeBook[i]->result->subjectGPA[k]);
         }
+        printf("%s's GPA is %f\n", gradeBook[i]->name,
+               gradeBook[i]->result->GPA);
+      } else {
+        printf("The GPA of this student has not been calculated\n");
       }
     } else {
-      printf("Scores of this student has not been added\n");
+      printf("Scores of this student have not been added\n");
     }
   }
 }

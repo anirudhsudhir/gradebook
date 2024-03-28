@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 void freeMemory(GradeBook *gradeBook[]) {
-  printf("Freeing memory\n");
+  // printf("Freeing memory\n");
   for (int i = 0; i < currentStudentPointer; i++) {
     if (gradeBook[i] != NULL) {
 

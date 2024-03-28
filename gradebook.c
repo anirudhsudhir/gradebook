@@ -5,18 +5,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int MAX_INTERNAL_MARKS = 40;
-const int MAX_EXTERNAL_MARKS = 100;
-
 int totalSubs = 0;
 int totalInternals = 0;
 int totalExternals = 0;
 int currentStudentPointer = 0;
-GradeBook **gradeBook;
+int max_internal_marks;
+int max_external_marks;
 
+GradeBook **gradeBook;
 char **subjects;
 
 int choiceEntry() {
+  clear();
   printf("Enter 1 to add a student\n");
   printf("Enter 2 to update student scores\n");
   printf("Enter 3 to calculate marks data\n");
@@ -30,13 +30,29 @@ int choiceEntry() {
     addStudent();
     break;
   case 2:
-    updateStudentScores();
+    if (currentStudentPointer == 0) {
+      printf("No student has been added yet\n");
+      waitClear();
+    } else {
+      updateStudentScores();
+    }
     break;
   case 3:
-    calculateStudentScores();
+    if (currentStudentPointer == 0) {
+      printf("No student has been added yet\n");
+      waitClear();
+    } else {
+      calculateStudentScores();
+    }
     break;
   case 4:
-    displayStudentData();
+    if (currentStudentPointer == 0) {
+      printf("No student has been added yet\n");
+      waitClear();
+    } else {
+      displayStudentData();
+      waitClear();
+    }
     break;
   case 5:
     return 1;
@@ -66,6 +82,10 @@ void bootstrapGradebook() {
   scanf("%d", &totalInternals);
   printf("Enter the total number of externals\n");
   scanf("%d", &totalExternals);
+  printf("Enter the maximum marks that can be scored in an internal\n");
+  scanf("%d", &max_internal_marks);
+  printf("Enter the maximum marks that can be scored in an external\n");
+  scanf("%d", &max_external_marks);
 }
 
 int main() {
