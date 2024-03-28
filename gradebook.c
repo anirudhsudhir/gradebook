@@ -11,7 +11,6 @@ const int MAX_EXTERNAL_MARKS = 100;
 int totalSubs = 0;
 int totalInternals = 0;
 int totalExternals = 0;
-int MAX_STUDENTS = 0;
 int currentStudentPointer = 0;
 GradeBook **gradeBook;
 
@@ -67,16 +66,10 @@ void bootstrapGradebook() {
   scanf("%d", &totalInternals);
   printf("Enter the total number of externals\n");
   scanf("%d", &totalExternals);
-  printf("Enter the maximum number of students to be added\n");
-  scanf("%d", &MAX_STUDENTS);
 }
 
 int main() {
   bootstrapGradebook();
-  gradeBook = (GradeBook **)malloc(MAX_STUDENTS * sizeof(GradeBook *));
-  for (int i = 0; i < MAX_STUDENTS; i++) {
-    gradeBook[i] = NULL;
-  }
 
   while (1) {
     if (choiceEntry())

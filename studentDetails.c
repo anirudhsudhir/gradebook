@@ -25,6 +25,9 @@ void addStudent() {
 
   student->marks = NULL;
   student->result = NULL;
+
+  gradeBook = (GradeBook **)realloc(gradeBook, (currentStudentPointer + 1) *
+                                                   sizeof(GradeBook *));
   gradeBook[currentStudentPointer++] = student;
 }
 
