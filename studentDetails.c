@@ -1,5 +1,6 @@
 #include "studentDetails.h"
 #include "gradebook.h"
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,6 +56,68 @@ void updateStudentScores() {
   }
 }
 
+void updateSingleStudentScores() {
+  char *nameSearch = (char *)malloc(1024);
+  printf("Enter the name of the student whose scores are to be updated\n");
+  char dummy_space;
+  scanf("%c", &dummy_space);
+  fgets(nameSearch, 1024, stdin);
+  nameSearch[strlen(nameSearch) - 1] = '\0';
+
+  for (int i = 0; i < strlen(nameSearch); i++) {
+    nameSearch[i] = tolower(nameSearch[i]);
+  }
+  char *lowerName = (char *)malloc(1024);
+
+  for (int i = 0; i < currentStudentPointer; i++) {
+    for (int j = 0; j < strlen(gradeBook[i]->name); j++) {
+      lowerName[j] = tolower(gradeBook[i]->name[j]);
+    }
+    lowerName[strlen(gradeBook[i]->name)] = '\0';
+
+    if (strcmp(nameSearch, lowerName) == 0) {
+      printf("Enter 1 to update the marks of the following student: %s\n",
+             gradeBook[i]->name);
+      int choice;
+      scanf("%d", &choice);
+      if (choice == 1) {
+
+        int **marks = (int **)malloc(sizeof(int *));
+        printf("Enter %s's marks in %s\n", gradeBook[i]->name, subjects[i]);
+        int *subMarks = (int *)malloc(sizeof(int));
+
+        for (int j = 0; j < totalInternals; j++) {
+          printf("Internal %d: ", j + 1);
+          scanf("%d", &subMarks[j]);
+        }
+        for (int j = totalInternals; j < totalInternals + totalExternals; j++) {
+          printf("External %d: ", j + 1 - totalInternals);
+          scanf("%d", &subMarks[j]);
+        }
+        marks[i] = subMarks;
+
+        if (gradeBook[i]->marks != NULL) {
+          for (int j = 0; j < totalSubs; j++) {
+            if (gradeBook[i]->marks[j] != NULL)
+              free(gradeBook[i]->marks[j]);
+          }
+          free(gradeBook[i]->marks);
+        }
+
+        gradeBook[i]->marks = marks;
+
+        free(lowerName);
+        free(nameSearch);
+        return;
+      }
+    }
+  }
+
+  free(lowerName);
+  free(nameSearch);
+  printf("No match found\n");
+}
+
 void calculateStudentScores() {
   for (int i = 0; i < currentStudentPointer; i++) {
     if (gradeBook[i]->marks == NULL) {
@@ -81,6 +144,13 @@ void calculateStudentScores() {
 
     result->GPA = ((float)calculatedTotalScore / (MAX_SCORE * totalSubs)) * 10;
     result->subjectGPA = calculatedSubjectPercent;
+
+    if (gradeBook[i]->result != NULL) {
+      if (gradeBook[i]->result->subjectGPA != NULL) {
+        free(gradeBook[i]->result->subjectGPA);
+      }
+      free(gradeBook[i]->result);
+    }
     gradeBook[i]->result = result;
   }
 }

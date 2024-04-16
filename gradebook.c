@@ -18,10 +18,11 @@ char **subjects;
 int choiceEntry() {
   clear();
   printf("Enter 1 to add a student\n");
-  printf("Enter 2 to update student scores\n");
+  printf("Enter 2 to update all student scores\n");
   printf("Enter 3 to calculate marks data\n");
   printf("Enter 4 to display student data along with marks\n");
-  printf("Enter 5 to quit the application\n");
+  printf("Enter 5 to update a student's score via pattern match\n");
+  printf("Enter 6 to quit the application\n");
   int option;
   scanf("%d", &option);
 
@@ -55,6 +56,15 @@ int choiceEntry() {
     }
     break;
   case 5:
+    if (currentStudentPointer == 0) {
+      printf("No student has been added yet\n");
+      waitClear();
+    } else {
+      updateSingleStudentScores();
+      waitClear();
+    }
+    break;
+  case 6:
     return 1;
   }
   return 0;

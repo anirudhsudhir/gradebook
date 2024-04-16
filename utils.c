@@ -16,7 +16,9 @@ void freeMemory(GradeBook *gradeBook[]) {
       }
 
       if (gradeBook[i]->result != NULL) {
-        free(gradeBook[i]->result->subjectGPA);
+        if (gradeBook[i]->result->subjectGPA != NULL) {
+          free(gradeBook[i]->result->subjectGPA);
+        }
         free(gradeBook[i]->result);
       }
 

@@ -5,6 +5,8 @@ void addStudent();
 
 void updateStudentScores();
 
+void updateSingleStudentScores();
+
 void calculateStudentScores();
 
 void displayStudentData();
