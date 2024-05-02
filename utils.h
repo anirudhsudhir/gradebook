@@ -12,3 +12,5 @@ extern char **subjects;
 extern GradeBook **gradeBook;
 
 void freeMemory(GradeBook *gradeBook[]);
+void writeToFile();
+void readFromFile();

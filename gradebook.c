@@ -65,6 +65,8 @@ int choiceEntry() {
     }
     break;
   case 6:
+    writeToFile();
+    printf("Data has been written to csv file\n");
     return 1;
   }
   return 0;
@@ -96,6 +98,14 @@ void bootstrapGradebook() {
   scanf("%d", &max_internal_marks);
   printf("Enter the maximum marks that can be scored in an external\n");
   scanf("%d", &max_external_marks);
+
+  printf("Enter 1 to read data from file\n");
+  int choice;
+  scanf("%d", &choice);
+  if (choice == 1) {
+    readFromFile();
+    waitClear();
+  }
 }
 
 int main() {

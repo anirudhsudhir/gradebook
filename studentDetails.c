@@ -34,11 +34,12 @@ void addStudent() {
 
 void updateStudentScores() {
   for (int h = 0; h < currentStudentPointer; h++) {
-    int **marks = (int **)malloc(sizeof(int *));
+    int **marks = (int **)malloc(sizeof(int *) * totalSubs);
     screenSep();
     for (int i = 0; i < totalSubs; i++) {
       printf("Enter %s's marks in %s\n", gradeBook[h]->name, subjects[i]);
-      int *subMarks = (int *)malloc(sizeof(int));
+      int *subMarks =
+          (int *)malloc(sizeof(int) * (totalInternals + totalExternals));
 
       for (int j = 0; j < totalInternals; j++) {
         printf("Internal %d: ", j + 1);
