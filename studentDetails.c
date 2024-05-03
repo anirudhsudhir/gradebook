@@ -83,19 +83,23 @@ void updateSingleStudentScores() {
       scanf("%d", &choice);
       if (choice == 1) {
 
-        int **marks = (int **)malloc(sizeof(int *));
-        printf("Enter %s's marks in %s\n", gradeBook[i]->name, subjects[i]);
-        int *subMarks = (int *)malloc(sizeof(int));
+        int **marks = (int **)malloc(sizeof(int *) * totalSubs);
+        for (int k = 0; k < totalSubs; k++) {
+          printf("Enter %s's marks in %s\n", gradeBook[i]->name, subjects[k]);
+          int *subMarks =
+              (int *)malloc(sizeof(int) * (totalInternals + totalExternals));
 
-        for (int j = 0; j < totalInternals; j++) {
-          printf("Internal %d: ", j + 1);
-          scanf("%d", &subMarks[j]);
+          for (int l = 0; l < totalInternals; l++) {
+            printf("Internal %d: ", l + 1);
+            scanf("%d", &subMarks[l]);
+          }
+          for (int l = totalInternals; l < totalInternals + totalExternals;
+               l++) {
+            printf("External %d: ", l + 1 - totalInternals);
+            scanf("%d", &subMarks[l]);
+          }
+          marks[k] = subMarks;
         }
-        for (int j = totalInternals; j < totalInternals + totalExternals; j++) {
-          printf("External %d: ", j + 1 - totalInternals);
-          scanf("%d", &subMarks[j]);
-        }
-        marks[i] = subMarks;
 
         if (gradeBook[i]->marks != NULL) {
           for (int j = 0; j < totalSubs; j++) {

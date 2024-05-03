@@ -170,11 +170,12 @@ void readFromFile() {
         if (gradeBook != NULL) {
           gradeBook = (GradeBook **)realloc(
               gradeBook, (currentStudentPointer + 1) * sizeof(GradeBook *));
+          gradeBook[currentStudentPointer++] = student;
         } else {
           currentStudentPointer = 0;
           gradeBook = (GradeBook **)malloc(sizeof(GradeBook *));
+          gradeBook[currentStudentPointer++] = student;
         }
-        gradeBook[currentStudentPointer++] = student;
       }
 
       counter = 0;
